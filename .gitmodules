@@ -1,0 +1,18 @@
+[submodule "FC_Framework"]
+	path = FC_Framework
+	url = https://github.com/fmorris2/FC_Framework
+[submodule "FC_Sheep_Shearer"]
+	path = FC_Sheep_Shearer
+	url = https://github.com/fmorris2/FC_Sheep_Shearer
+[submodule "FC_Dorics_Quest"]
+	path = FC_Dorics_Quest
+	url = https://github.com/fmorris2/FC_Dorics_Quest
+[submodule "FC_Romeo_And_Juliet"]
+	path = FC_Romeo_And_Juliet
+	url = https://github.com/fmorris2/FC_Romeo_And_Juliet
+[submodule "FC_Cooks_Assistant"]
+	path = FC_Cooks_Assistant
+	url = https://github.com/fmorris2/FC_Cooks_Assistant
+[submodule "FC_Tutorial"]
+	path = FC_Tutorial
+	url = https://github.com/fmorris2/FC_Tutorial
