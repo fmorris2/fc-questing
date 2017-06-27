@@ -16,3 +16,6 @@
 [submodule "FC_Tutorial"]
 	path = FC_Tutorial
 	url = https://github.com/fmorris2/FC_Tutorial
+[submodule "FC_Mining"]
+	path = FC_Mining
+	url = https://github.com/fmorris2/FC_Mining
