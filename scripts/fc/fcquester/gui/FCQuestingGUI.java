@@ -256,7 +256,7 @@ public class FCQuestingGUI
     	
     	for(Mission q : script.questLoader.getQuests())
     	{    		
-    		if(!(q instanceof FCTutorial))
+    		if(!(q instanceof FCTutorial) && !q.hasReachedEndingCondition())
     			quests.add(q);
     	}
 	    	
