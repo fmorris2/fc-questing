@@ -19,3 +19,12 @@
 [submodule "FC_Mining"]
 	path = FC_Mining
 	url = https://github.com/fmorris2/FC_Mining
+[submodule "FC_Goblin_Diplomacy"]
+	path = FC_Goblin_Diplomacy
+	url = https://github.com/fmorris2/FC_Goblin_Diplomacy
+[submodule "FC_Imp_Catcher"]
+	path = FC_Imp_Catcher
+	url = https://github.com/fmorris2/FC_Imp_Catcher
+[submodule "FC_Rune_Mysteries"]
+	path = FC_Rune_Mysteries
+	url = https://github.com/fmorris2/FC_Rune_Mysteries

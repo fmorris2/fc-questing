@@ -8,6 +8,8 @@ import java.util.Queue;
 import org.tribot.api.General;
 import org.tribot.api.Timing;
 import org.tribot.api2007.Game;
+import org.tribot.api2007.Login;
+import org.tribot.api2007.Login.STATE;
 import org.tribot.script.ScriptManifest;
 import org.tribot.script.interfaces.Arguments;
 import org.tribot.script.interfaces.Ending;
@@ -17,6 +19,7 @@ import org.tribot.script.interfaces.Starting;
 
 import scripts.fc.api.interaction.EntityInteraction;
 import scripts.fc.fcquester.data.QuestLoader;
+import scripts.fc.fcquester.gui.FCQuestingGUI;
 import scripts.fc.framework.mission.Mission;
 import scripts.fc.framework.paint.FCDetailedPaint;
 import scripts.fc.framework.paint.FCPaintable;
@@ -42,11 +45,20 @@ public class FCQuester extends FCPremiumScript implements FCPaintable, Painting,
 	private int questsCompleted = 0;
 	private int questPoints = -1;
 	
-	private FCQuesterGUI GUI = (FCQuesterGUI)this.paint.gui;
+	private FCQuestingGUI GUI;
 	
 	@Override	
 	protected int mainLogic()
 	{
+		if(!GUI.hasFilledOut && Login.getLoginState() != STATE.INGAME && Game.getGameState() != 30)
+		{
+			println("Waiting for login before displaying GUI...");
+			return 1000;
+		}
+		
+		GUI.init();
+		this.paint.gui = GUI.getFrame();
+		
 		if(!GUI.hasFilledOut)
 			return 100;
 		
@@ -74,6 +86,12 @@ public class FCQuester extends FCPremiumScript implements FCPaintable, Painting,
 		EntityInteraction.abcOne = abc;
 	}
 	
+	public void onEnd()
+	{
+		super.onEnd();
+		GUI.dispose();
+	}
+	
 	@Override
 	protected Queue<Mission> getMissions()
 	{
@@ -99,16 +117,17 @@ public class FCQuester extends FCPremiumScript implements FCPaintable, Painting,
 	@Override
 	public FCDetailedPaint getPaint()
 	{
-		return new FCQuesterPaint(this, new FCQuesterGUI(this), Color.GREEN, null);
+		GUI = new FCQuestingGUI(this);
+		return new FCQuesterPaint(this, GUI.getFrame(), Color.GREEN, null);
 	}
 	@Override
 	public void passArguments(HashMap<String, String> args)
 	{
 		String arguments = args.get("custom_input");
 		if(arguments.equals("all"))
-			GUI.randomlyAddQuests(false);
+			GUI.randomlyAddQuests();
 		else if(arguments.equals("7qp"))
-			GUI.randomlyAddQuests(true);
+			GUI.add7qp();
 	}
 
 	@Override
