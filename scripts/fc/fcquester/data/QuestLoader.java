@@ -2,8 +2,10 @@ package scripts.fc.fcquester.data;
 
 import java.util.Arrays;
 
+
 import scripts.fc.fcquester.FCQuester;
 import scripts.fc.framework.mission.Mission;
+import scripts.fc.framework.quest.QuestMission;
 import scripts.fc.missions.fccooksassistant.FCCooksAssistant;
 import scripts.fc.missions.fcdoricsquest.FCDoricsQuest;
 import scripts.fc.missions.fcgoblindiplomacy.FCGoblinDiplomacy;
@@ -12,6 +14,7 @@ import scripts.fc.missions.fcromeoandjuliet.FCRomeoAndJuliet;
 import scripts.fc.missions.fcrunemysteries.FCRuneMysteries;
 import scripts.fc.missions.fcsheepshearer.FCSheepShearer;
 import scripts.fc.missions.fctutorial.FCTutorial;
+
 
 public class QuestLoader
 {
@@ -33,6 +36,11 @@ public class QuestLoader
 	
 	public Mission[] getQuests()
 	{
-		return Arrays.stream(quests).filter(m -> !m.hasReachedEndingCondition()).toArray(Mission[]::new);
+		return Arrays.stream(quests).filter(m -> {
+			if(m instanceof QuestMission && !((QuestMission)m).canStart())
+				return false;
+			
+			return !m.hasReachedEndingCondition();
+		}).toArray(Mission[]::new);
 	}
 }
