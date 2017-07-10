@@ -3,9 +3,11 @@ package scripts.fc.fcquester.data;
 import java.util.Arrays;
 
 
+
 import scripts.fc.fcquester.FCQuester;
 import scripts.fc.framework.mission.Mission;
 import scripts.fc.framework.quest.QuestMission;
+import scripts.fc.missions.fc_druidic_ritual.FCDruidicRitual;
 import scripts.fc.missions.fccooksassistant.FCCooksAssistant;
 import scripts.fc.missions.fcdoricsquest.FCDoricsQuest;
 import scripts.fc.missions.fcgoblindiplomacy.FCGoblinDiplomacy;
@@ -23,6 +25,7 @@ public class QuestLoader
 	public QuestLoader(FCQuester script)
 	{
 		quests = new Mission[]{
+				new FCDruidicRitual(script),
 				new FCSheepShearer(script), 
 				new FCRuneMysteries(script),
 				new FCRomeoAndJuliet(script),

@@ -28,3 +28,6 @@
 [submodule "FC_Rune_Mysteries"]
 	path = FC_Rune_Mysteries
 	url = https://github.com/fmorris2/FC_Rune_Mysteries
+[submodule "FC_Druidic_Ritual"]
+	path = FC_Druidic_Ritual
+	url = https://github.com/fmorris2/FC_Druidic_Ritual
