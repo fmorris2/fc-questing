@@ -31,3 +31,6 @@
 [submodule "FC_Druidic_Ritual"]
 	path = FC_Druidic_Ritual
 	url = https://github.com/fmorris2/FC_Druidic_Ritual
+[submodule "FC_Witchs_Potion"]
+	path = FC_Witchs_Potion
+	url = https://github.com/fmorris2/FC_Witchs_Potion
