@@ -7,6 +7,7 @@ import java.util.Queue;
 
 import org.tribot.api.General;
 import org.tribot.api.Timing;
+import org.tribot.api.util.ABCUtil;
 import org.tribot.api2007.Game;
 import org.tribot.api2007.Login;
 import org.tribot.api2007.Login.STATE;
@@ -81,9 +82,6 @@ public class FCQuester extends FCPremiumScript implements FCPaintable, Painting,
 	public void onStart()
 	{
 		super.onStart();
-		
-		//set EntityInteraction system in API to use ABC
-		EntityInteraction.abcOne = abc;
 	}
 	
 	public void onEnd()
