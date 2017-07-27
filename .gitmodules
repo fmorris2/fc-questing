@@ -34,3 +34,6 @@
 [submodule "FC_Witchs_Potion"]
 	path = FC_Witchs_Potion
 	url = https://github.com/fmorris2/FC_Witchs_Potion
+[submodule "FC_Prince_Ali_Rescue"]
+	path = FC_Prince_Ali_Rescue
+	url = https://github.com/fmorris2/FC_Prince_Ali_Rescue

@@ -126,6 +126,8 @@ public class FCQuester extends FCPremiumScript implements FCPaintable, Painting,
 			GUI.add7qp();
 		else if(arguments.equals("tut-ge"))
 			GUI.addTutGe();
+		else if(arguments.equals("tut"))
+			GUI.addTut();
 	}
 
 	@Override
