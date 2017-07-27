@@ -7,7 +7,6 @@ import java.util.Queue;
 
 import org.tribot.api.General;
 import org.tribot.api.Timing;
-import org.tribot.api.util.ABCUtil;
 import org.tribot.api2007.Game;
 import org.tribot.api2007.Login;
 import org.tribot.api2007.Login.STATE;
@@ -18,7 +17,6 @@ import org.tribot.script.interfaces.EventBlockingOverride;
 import org.tribot.script.interfaces.Painting;
 import org.tribot.script.interfaces.Starting;
 
-import scripts.fc.api.interaction.EntityInteraction;
 import scripts.fc.fcquester.data.QuestLoader;
 import scripts.fc.fcquester.gui.FCQuestingGUI;
 import scripts.fc.framework.mission.Mission;
@@ -33,7 +31,7 @@ import scripts.fc.framework.statistic_tracking.StatTracking;
 		}, 
 		category    = "Quests", 
 		name        = "FC Quester", 
-		version     = 0.36, 
+		version     = 1.01, 
 		description = "Completes a variety of quests for you.", 
 		gameMode    = 1)
 
@@ -126,6 +124,8 @@ public class FCQuester extends FCPremiumScript implements FCPaintable, Painting,
 			GUI.randomlyAddQuests();
 		else if(arguments.equals("7qp"))
 			GUI.add7qp();
+		else if(arguments.equals("tut-ge"))
+			GUI.addTutGe();
 	}
 
 	@Override

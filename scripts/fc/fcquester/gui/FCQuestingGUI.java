@@ -23,7 +23,9 @@ import org.tribot.api.General;
 import scripts.fc.api.utils.Utils;
 import scripts.fc.fcquester.FCQuester;
 import scripts.fc.fcquester.data.QuestLoader;
+import scripts.fc.fcquester.tasks.WalkToGe;
 import scripts.fc.framework.mission.Mission;
+import scripts.fc.framework.mission.impl.OneTaskMission;
 import scripts.fc.missions.fccooksassistant.FCCooksAssistant;
 import scripts.fc.missions.fcromeoandjuliet.FCRomeoAndJuliet;
 import scripts.fc.missions.fcsheepshearer.FCSheepShearer;
@@ -278,6 +280,24 @@ public class FCQuestingGUI
     	script.getSetMissions().add(new FCTutorial(script));
     	script.getSetMissions().addAll(quests);
     	
+    	hasFilledOut = true;
+    }
+    
+    public void addTutGe()
+    {
+    	
+    	isUsingArgs = true;
+    	
+    	script.getSetMissions().add(new FCTutorial(script));
+    	script.getSetMissions().add(new OneTaskMission(new WalkToGe(), "Walk to GE"));
+    	
+    	hasFilledOut = true;
+    }
+    
+    public void addTut()
+    {
+    	isUsingArgs = true;
+    	script.getSetMissions().add(new FCTutorial(script));
     	hasFilledOut = true;
     }
 	

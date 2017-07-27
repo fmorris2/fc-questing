@@ -2,9 +2,6 @@ package scripts.fc.fcquester.data;
 
 import java.util.Arrays;
 
-
-
-
 import scripts.fc.fcquester.FCQuester;
 import scripts.fc.framework.mission.Mission;
 import scripts.fc.framework.quest.QuestMission;
