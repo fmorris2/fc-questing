@@ -37,3 +37,9 @@
 [submodule "FC_Prince_Ali_Rescue"]
 	path = FC_Prince_Ali_Rescue
 	url = https://github.com/fmorris2/FC_Prince_Ali_Rescue
+[submodule "FC_Knights_Sword"]
+	path = FC_Knights_Sword
+	url = https://github.com/fmorris2/FC_Knights_Sword
+[submodule "FC_Ernest_The_Chicken"]
+	path = FC_Ernest_The_Chicken
+	url = https://github.com/fmorris2/FC_Ernest_The_Chicken

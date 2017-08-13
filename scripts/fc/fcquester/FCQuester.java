@@ -31,7 +31,7 @@ import scripts.fc.framework.statistic_tracking.StatTracking;
 		}, 
 		category    = "Quests", 
 		name        = "FC Quester", 
-		version     = 1.03, 
+		version     = 1.04, 
 		description = "Completes a variety of quests for you.", 
 		gameMode    = 1)
 

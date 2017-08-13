@@ -1,4 +1,6 @@
 package scripts.fc.fcquester.gui;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -63,9 +65,22 @@ public class FCQuestingGUI
 		initialize();
 		
 		if(prepareOptions())
-			Utils.handleGui(mainFrame);
+			setupGUI();
 		
 		isInitialized = true;
+	}
+	
+	private void setupGUI()
+	{
+		mainFrame.setLocationRelativeTo(null);
+		mainFrame.setAlwaysOnTop(true);
+		
+		//Position GUI in center of screen
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();		
+		mainFrame.setLocation((int)(screenSize.getWidth() / 2), (int)(screenSize.getHeight() / 2));
+		
+		//Make GUI visible
+		mainFrame.setVisible(true);
 	}
 	
 	private boolean prepareOptions()

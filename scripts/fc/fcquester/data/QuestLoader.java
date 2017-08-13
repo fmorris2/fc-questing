@@ -6,6 +6,8 @@ import scripts.fc.fcquester.FCQuester;
 import scripts.fc.framework.mission.Mission;
 import scripts.fc.framework.quest.QuestMission;
 import scripts.fc.missions.fc_druidic_ritual.FCDruidicRitual;
+import scripts.fc.missions.fc_ernest_the_chicken.FCErnestTheChicken;
+import scripts.fc.missions.fc_knights_sword.FCKnightsSword;
 import scripts.fc.missions.fc_prince_ali_rescue.FCPrinceAliRescue;
 import scripts.fc.missions.fc_witchs_potion.FCWitchsPotion;
 import scripts.fc.missions.fccooksassistant.FCCooksAssistant;
@@ -25,6 +27,8 @@ public class QuestLoader
 	public QuestLoader(FCQuester script)
 	{
 		quests = new Mission[]{
+				new FCErnestTheChicken(script),
+				new FCKnightsSword(script),
 				new FCPrinceAliRescue(script),
 				new FCWitchsPotion(script),
 				new FCDruidicRitual(script),
