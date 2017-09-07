@@ -22,7 +22,6 @@ import javax.swing.border.EtchedBorder;
 
 import org.tribot.api.General;
 
-import scripts.fc.api.utils.Utils;
 import scripts.fc.fcquester.FCQuester;
 import scripts.fc.fcquester.data.QuestLoader;
 import scripts.fc.fcquester.tasks.WalkToGe;

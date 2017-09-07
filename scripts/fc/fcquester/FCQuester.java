@@ -31,7 +31,7 @@ import scripts.fc.framework.statistic_tracking.StatTracking;
 		}, 
 		category    = "Quests", 
 		name        = "FC Quester", 
-		version     = 1.04, 
+		version     = 1.07, 
 		description = "Completes a variety of quests for you.", 
 		gameMode    = 1)
 
@@ -45,21 +45,25 @@ public class FCQuester extends FCPremiumScript implements FCPaintable, Painting,
 	private int questPoints = -1;
 	
 	private FCQuestingGUI GUI;
+	private boolean isUsingArgs;
 	
 	@Override	
 	protected int mainLogic()
 	{
 		if(!GUI.hasFilledOut && Login.getLoginState() != STATE.INGAME && Game.getGameState() != 30)
 		{
-			println("Waiting for login before displaying GUI...");
+			println("Waiting for login...");
 			return 1000;
 		}
 		
-		GUI.init();
-		this.paint.gui = GUI.getFrame();
-		
-		if(!GUI.hasFilledOut)
-			return 100;
+		if(!isUsingArgs)
+		{
+			GUI.init();
+			this.paint.gui = GUI.getFrame();
+			
+			if(!GUI.hasFilledOut)
+				return 100;
+		}
 		
 		if(questPoints == -1)
 			questPoints = getQuestPoints();
@@ -120,6 +124,7 @@ public class FCQuester extends FCPremiumScript implements FCPaintable, Painting,
 	public void passArguments(HashMap<String, String> args)
 	{
 		String arguments = args.get("custom_input");
+		isUsingArgs = true;
 		if(arguments.equals("all"))
 			GUI.randomlyAddQuests();
 		else if(arguments.equals("7qp"))
@@ -128,6 +133,8 @@ public class FCQuester extends FCPremiumScript implements FCPaintable, Painting,
 			GUI.addTutGe();
 		else if(arguments.equals("tut"))
 			GUI.addTut();
+		else
+			isUsingArgs = false;
 	}
 
 	@Override

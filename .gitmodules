@@ -43,3 +43,6 @@
 [submodule "FC_Ernest_The_Chicken"]
 	path = FC_Ernest_The_Chicken
 	url = https://github.com/fmorris2/FC_Ernest_The_Chicken
+[submodule "FC_Restless_Ghost"]
+	path = FC_Restless_Ghost
+	url = https://github.com/fmorris2/FC_Restless_Ghost

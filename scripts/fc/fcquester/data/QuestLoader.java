@@ -9,6 +9,7 @@ import scripts.fc.missions.fc_druidic_ritual.FCDruidicRitual;
 import scripts.fc.missions.fc_ernest_the_chicken.FCErnestTheChicken;
 import scripts.fc.missions.fc_knights_sword.FCKnightsSword;
 import scripts.fc.missions.fc_prince_ali_rescue.FCPrinceAliRescue;
+import scripts.fc.missions.fc_restless_ghost.FCRestlessGhost;
 import scripts.fc.missions.fc_witchs_potion.FCWitchsPotion;
 import scripts.fc.missions.fccooksassistant.FCCooksAssistant;
 import scripts.fc.missions.fcdoricsquest.FCDoricsQuest;
@@ -27,6 +28,7 @@ public class QuestLoader
 	public QuestLoader(FCQuester script)
 	{
 		quests = new Mission[]{
+				new FCRestlessGhost(script),
 				new FCErnestTheChicken(script),
 				new FCKnightsSword(script),
 				new FCPrinceAliRescue(script),
