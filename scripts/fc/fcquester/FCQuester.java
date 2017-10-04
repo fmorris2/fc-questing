@@ -31,7 +31,7 @@ import scripts.fc.framework.statistic_tracking.StatTracking;
 		}, 
 		category    = "Quests", 
 		name        = "FC Quester", 
-		version     = 1.07, 
+		version     = 1.08, 
 		description = "Completes a variety of quests for you.", 
 		gameMode    = 1)
 
@@ -123,7 +123,7 @@ public class FCQuester extends FCPremiumScript implements FCPaintable, Painting,
 	@Override
 	public void passArguments(HashMap<String, String> args)
 	{
-		String arguments = args.get("custom_input");
+		String arguments = args.getOrDefault("custom_input", args.getOrDefault("autostart", ""));
 		isUsingArgs = true;
 		if(arguments.equals("all"))
 			GUI.randomlyAddQuests();
