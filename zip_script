@@ -1,0 +1,24 @@
+zip -r upload.zip . -x \
+".classpath" \
+".gitignore" \
+".gitmodules" \
+"*.git*" \
+".project" \
+"zip_script" \
+"/FC_Witchs_Potion/scripts/fc/FCWitchsPotionScript.java" \
+"/FC_Tutorial/scripts/fc/fctutorial/*.java" \
+"/FC_Sheep_Shearer/scripts/fc/fcsheepshearer/*.java" \
+"/FC_Rune_Mysteries/scripts/fc/FCRuneMysteries.java" \
+"/FC_Romeo_And_Juliet/scripts/fc/fcromeoandjuliet/*.java" \
+"/FC_Restless_Ghost/scripts/fc/FCRestlessGhostScript.java" \
+"/FC_Prince_Ali_Rescue/scripts/fc/FCPrinceAliRescue.java" \
+"/FC_Mining/scripts/fc/fcmining*" \
+"/FC_Knights_Sword/scripts/fc/FCKnightsSwordScript.java" \
+"/FC_Imp_Catcher/scripts/fc/FCImpCatcherScript.java" \
+"/FC_Goblin_Diplomacy/scripts/fc/FCGoblinDiplomacyScript.java" \
+"/FC_Goblin_Diplomacy/scripts/fc/FCGoblinDiplomacyScript.java" \
+"/FC_Framework/scripts/fc/Test.java" \
+"/FC_Ernest_The_Chicken/scripts/fc/FCErnestTheChickenScript.java" \
+"/FC_Druidic_Ritual/scripts/fc/FCDruidicRitualScript.java" \
+"/FC_Dorics_Quest/scripts/fc/fcdoricsquest/*.java" \
+"/FC_Cooks_Assistant/scripts/fc/fccooksassistant/*.java"
