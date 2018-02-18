@@ -1,12 +1,17 @@
 package scripts.fc.fcquester;
 
 import java.awt.Color;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 
 import org.tribot.api.General;
 import org.tribot.api.Timing;
+import org.tribot.api.input.Mouse;
 import org.tribot.api2007.Game;
 import org.tribot.api2007.Login;
 import org.tribot.api2007.Login.STATE;
@@ -17,6 +22,9 @@ import org.tribot.script.interfaces.EventBlockingOverride;
 import org.tribot.script.interfaces.Painting;
 import org.tribot.script.interfaces.Starting;
 
+import scripts.fc.api.generic.FCConditions;
+import scripts.fc.api.utils.DebugUtils;
+import scripts.fc.fcquester.data.FCQuestingProfile;
 import scripts.fc.fcquester.data.QuestLoader;
 import scripts.fc.fcquester.gui.FCQuestingGUI;
 import scripts.fc.framework.mission.Mission;
@@ -45,15 +53,25 @@ public class FCQuester extends FCPremiumScript implements FCPaintable, Painting,
 	private int questPoints = -1;
 	
 	private FCQuestingGUI GUI;
+	private Queue<Map.Entry<String, String>> accountQueue = new LinkedList<>();
 	private boolean isUsingArgs;
+	private HashMap<String,String> args;
+	private Set<String> loggedInAccounts = new HashSet<>();
 	
 	@Override	
 	protected int mainLogic()
-	{
+	{		
+		/*
 		if(!GUI.hasFilledOut && Login.getLoginState() != STATE.INGAME && Game.getGameState() != 30)
 		{
 			println("Waiting for login...");
 			return 1000;
+		}
+		*/
+		
+		if(!accountQueue.isEmpty() && Login.getLoginState() != STATE.INGAME && Game.getGameState() != 30) {
+			loginCurrentAccountInQueue();
+			return 100;
 		}
 		
 		if(!isUsingArgs)
@@ -76,6 +94,16 @@ public class FCQuester extends FCPremiumScript implements FCPaintable, Painting,
 			questPoints = -1;
 			currentQuestStart = Timing.currentTimeMillis();
 		}
+		
+		if(getSetMissions().isEmpty() && currentMission == null && !accountQueue.isEmpty()) {
+			advanceAccountQueue();
+			DebugUtils.debugOnInterval("Moving on to next account in queue...", 2000);
+			return 100;
+		}
+		
+		if(Login.getLoginState() == STATE.WELCOMESCREEN && !accountQueue.isEmpty()) {
+			Login.login();
+		}
 			
 		return super.mainLogic();
 	}
@@ -84,6 +112,7 @@ public class FCQuester extends FCPremiumScript implements FCPaintable, Painting,
 	public void onStart()
 	{
 		super.onStart();
+		setLoginBotState(false);
 	}
 	
 	public void onEnd()
@@ -123,9 +152,15 @@ public class FCQuester extends FCPremiumScript implements FCPaintable, Painting,
 	@Override
 	public void passArguments(HashMap<String, String> args)
 	{
+		this.args = args;
 		String arguments = args.getOrDefault("custom_input", args.getOrDefault("autostart", ""));
 		isUsingArgs = true;
-		if(arguments.equals("all"))
+		FCQuestingProfile profile = FCQuestingProfile.get(arguments);
+		if(profile != null) {
+			GUI.useProfile(profile);
+			General.println("Using profile: " + arguments);
+		}
+		else if(arguments.equals("all"))
 			GUI.randomlyAddQuests();
 		else if(arguments.equals("7qp"))
 			GUI.add7qp();
@@ -135,6 +170,10 @@ public class FCQuester extends FCPremiumScript implements FCPaintable, Painting,
 			GUI.addTut();
 		else
 			isUsingArgs = false;
+		
+		if(isUsingArgs && accountQueue.isEmpty()) {
+			setLoginBotState(true);
+		}
 	}
 
 	@Override
@@ -144,6 +183,67 @@ public class FCQuester extends FCPremiumScript implements FCPaintable, Painting,
 				+ "tableName=fc_questing,"
 				+ "runtime="+(getRunningTime()/1000)+","
 				+ "quests_completed="+questsCompleted;
+	}
+	
+	private void advanceAccountQueue() {
+		if(loggedInAccounts.contains(accountQueue.peek().getKey())) {
+			println("Advancing account queue...");
+			if(Login.getLoginState() == STATE.WELCOMESCREEN) {
+				Login.login();
+			}
+			if(Login.logout()) {
+				accountQueue.poll();
+				BANK_OBSERVER.clear();
+				if(isUsingArgs) {
+					passArguments(args);
+				} else {
+					GUI.addSelectedQuestsToScript(true);
+				}
+			}
+		} else {
+			loginCurrentAccountInQueue();
+		}
+	}
+	
+	private boolean loginCurrentAccountInQueue() {
+		if(accountQueue.isEmpty()) {
+			return false;
+		}
+		
+		Map.Entry<String, String> accountInfo = accountQueue.peek();
+		General.println("Attempting to login to next account: " + accountInfo.getKey());
+		boolean success = Login.login(accountInfo.getKey(), accountInfo.getValue())
+				&& Timing.waitCondition(FCConditions.IN_GAME_CONDITION, 1200);
+		
+		if(success) {
+			loggedInAccounts.add(accountInfo.getKey());
+		} else if(isInvalidLoginResponse()) {
+			General.println("Invalid account: " + accountInfo.getKey());
+			clearLoginResponse();
+			loggedInAccounts.add(accountInfo.getKey());
+			accountQueue.poll();
+		}
+		
+		return success;
+	}
+	
+	private void clearLoginResponse() {
+		Mouse.clickBox(394, 305, 530, 334, 1);
+	}
+	
+	private boolean isInvalidLoginResponse() {
+		final String RESP = Login.getLoginResponse();
+		
+		return RESP != null && (RESP.contains("invalid") || RESP.contains("disabled")
+				|| RESP.contains("locked"));
+	}
+	
+	public void addAccountToQueue(String user, String pass) {
+		accountQueue.add(new SimpleEntry<>(user, pass));
+	}
+	
+	public int getAccountQueueSize() {
+		return accountQueue.size();
 	}
 
 }
