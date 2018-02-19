@@ -60,15 +60,7 @@ public class FCQuester extends FCPremiumScript implements FCPaintable, Painting,
 	
 	@Override	
 	protected int mainLogic()
-	{		
-		/*
-		if(!GUI.hasFilledOut && Login.getLoginState() != STATE.INGAME && Game.getGameState() != 30)
-		{
-			println("Waiting for login...");
-			return 1000;
-		}
-		*/
-		
+	{			
 		if(!accountQueue.isEmpty() && Login.getLoginState() != STATE.INGAME && Game.getGameState() != 30) {
 			loginCurrentAccountInQueue();
 			return 100;
@@ -112,7 +104,7 @@ public class FCQuester extends FCPremiumScript implements FCPaintable, Painting,
 	public void onStart()
 	{
 		super.onStart();
-		setLoginBotState(false);
+		setLoginBotState(isUsingArgs && accountQueue.isEmpty());
 	}
 	
 	public void onEnd()
@@ -170,10 +162,6 @@ public class FCQuester extends FCPremiumScript implements FCPaintable, Painting,
 			GUI.addTut();
 		else
 			isUsingArgs = false;
-		
-		if(isUsingArgs && accountQueue.isEmpty()) {
-			setLoginBotState(true);
-		}
 	}
 
 	@Override
