@@ -53,7 +53,7 @@ import scripts.fc.missions.fctutorial.FCTutorial;
 public class FCQuestingGUI
 {	
 	private static final String ICON_PATH = "/scripts/fc/fcquester/gui/quest_icon.png";
-	private static final String ACCOUNT_PATH = Util.getWorkingDirectory() + "/FC_Scripts/FC_Questing/accounts/";
+	private static final String ACCOUNT_PATH = Util.getAppDataDirectory() + "/FC_Scripts/FC_Questing/accounts/";
 	
 	public boolean hasFilledOut;
 	

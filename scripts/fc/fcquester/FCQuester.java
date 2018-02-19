@@ -141,27 +141,30 @@ public class FCQuester extends FCPremiumScript implements FCPaintable, Painting,
 		GUI = new FCQuestingGUI(this);
 		return new FCQuesterPaint(this, GUI.getFrame(), Color.GREEN, null);
 	}
+	
 	@Override
 	public void passArguments(HashMap<String, String> args)
 	{
 		this.args = args;
 		String arguments = args.getOrDefault("custom_input", args.getOrDefault("autostart", ""));
-		isUsingArgs = true;
-		FCQuestingProfile profile = FCQuestingProfile.get(arguments);
-		if(profile != null) {
-			GUI.useProfile(profile);
-			General.println("Using profile: " + arguments);
+		if(!arguments.isEmpty()) {
+			isUsingArgs = true;
+			FCQuestingProfile profile = FCQuestingProfile.get(arguments);
+			if(profile != null) {
+				GUI.useProfile(profile);
+				General.println("Using profile: " + arguments);
+			}
+			else if(arguments.equals("all"))
+				GUI.randomlyAddQuests();
+			else if(arguments.equals("7qp"))
+				GUI.add7qp();
+			else if(arguments.equals("tut-ge"))
+				GUI.addTutGe();
+			else if(arguments.equals("tut"))
+				GUI.addTut();
+			else
+				isUsingArgs = false;
 		}
-		else if(arguments.equals("all"))
-			GUI.randomlyAddQuests();
-		else if(arguments.equals("7qp"))
-			GUI.add7qp();
-		else if(arguments.equals("tut-ge"))
-			GUI.addTutGe();
-		else if(arguments.equals("tut"))
-			GUI.addTut();
-		else
-			isUsingArgs = false;
 	}
 
 	@Override
