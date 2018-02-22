@@ -9,12 +9,13 @@ import java.util.Queue;
 
 import org.tribot.util.Util;
 
+import scripts.fc.api.utils.Utils;
 import scripts.fc.framework.data.Vars;
 
 
 public class FCQuestingProfile implements Serializable {
 	
-	public static final String PROFILE_PATH = Util.getAppDataDirectory() + "/FC_Scripts/FC_Questing/profiles/";
+	public static final String PROFILE_PATH = Utils.getTribotDir() + "/FC_Scripts/FC_Questing/profiles/";
 	
 	private static final long serialVersionUID = 1L;
 	

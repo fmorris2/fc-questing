@@ -33,8 +33,8 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EtchedBorder;
 
 import org.tribot.api.General;
-import org.tribot.util.Util;
 
+import scripts.fc.api.utils.Utils;
 import scripts.fc.fcquester.FCQuester;
 import scripts.fc.fcquester.data.FCQuestingProfile;
 import scripts.fc.fcquester.data.QuestLoader;
@@ -53,7 +53,7 @@ import scripts.fc.missions.fctutorial.FCTutorial;
 public class FCQuestingGUI
 {	
 	private static final String ICON_PATH = "/scripts/fc/fcquester/gui/quest_icon.png";
-	private static final String ACCOUNT_PATH = Util.getAppDataDirectory() + "/FC_Scripts/FC_Questing/accounts/";
+	private static final String ACCOUNT_PATH = Utils.getTribotDir() + "/FC_Scripts/FC_Questing/accounts/";
 	
 	public boolean hasFilledOut;
 	
@@ -74,15 +74,20 @@ public class FCQuestingGUI
 	{
 		this.script = script;
 		this.script.questLoader = new QuestLoader(script);
-		createDirs();
 		fileChooser = new JFileChooser();
 	}
 	
 	private void createDirs() {
-		File f = new File(FCQuestingProfile.PROFILE_PATH);
-		f.mkdirs();
-		File f2 = new File(ACCOUNT_PATH);
-		f2.mkdirs();
+		try
+		{
+			File f = new File(FCQuestingProfile.PROFILE_PATH);
+			f.mkdirs();
+			File f2 = new File(ACCOUNT_PATH);
+			f2.mkdirs();
+		} catch(SecurityException e) {
+			e.printStackTrace();
+			General.println("[FC Questing Error] Could not create necessary directories");
+		}
 	}
 	
 	/**
@@ -90,6 +95,8 @@ public class FCQuestingGUI
 	 */
 	public void init()
 	{
+		createDirs();
+		
 		if(isUsingArgs || isInitialized)
 			return;
 		
