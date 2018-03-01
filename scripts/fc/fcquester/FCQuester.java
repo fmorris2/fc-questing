@@ -93,7 +93,7 @@ public class FCQuester extends FCPremiumScript implements FCPaintable, Painting,
 			return 100;
 		}
 		
-		if(Login.getLoginState() == STATE.WELCOMESCREEN && !accountQueue.isEmpty()) {
+		if(Login.getLoginState() == STATE.WELCOMESCREEN && !getLoginBotState()) {
 			Login.login();
 		}
 			
@@ -185,6 +185,7 @@ public class FCQuester extends FCPremiumScript implements FCPaintable, Painting,
 			if(Login.logout()) {
 				accountQueue.poll();
 				BANK_OBSERVER.clear();
+				getSetMissions().clear();
 				if(isUsingArgs) {
 					passArguments(args);
 				} else {
