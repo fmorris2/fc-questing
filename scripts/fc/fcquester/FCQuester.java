@@ -95,6 +95,7 @@ public class FCQuester extends FCPremiumScript implements FCPaintable, Painting,
 		
 		if(Login.getLoginState() == STATE.WELCOMESCREEN && !getLoginBotState()) {
 			Login.login();
+			return 100;
 		}
 			
 		return super.mainLogic();
@@ -183,9 +184,7 @@ public class FCQuester extends FCPremiumScript implements FCPaintable, Painting,
 				Login.login();
 			}
 			if(Login.logout()) {
-				accountQueue.poll();
-				BANK_OBSERVER.clear();
-				getSetMissions().clear();
+				removeCurrentAccountAndClearMissions();
 				if(isUsingArgs) {
 					passArguments(args);
 				} else {
@@ -197,13 +196,19 @@ public class FCQuester extends FCPremiumScript implements FCPaintable, Painting,
 		}
 	}
 	
+	private void removeCurrentAccountAndClearMissions() {
+		accountQueue.poll();
+		BANK_OBSERVER.clear();
+		getSetMissions().clear();
+	}
+	
 	private boolean loginCurrentAccountInQueue() {
 		if(accountQueue.isEmpty()) {
 			return false;
 		}
 		
 		Map.Entry<String, String> accountInfo = accountQueue.peek();
-		General.println("Attempting to login to next account: " + accountInfo.getKey());
+		General.println("Attempting to login to account: " + accountInfo.getKey());
 		boolean success = Login.login(accountInfo.getKey(), accountInfo.getValue())
 				&& Timing.waitCondition(FCConditions.IN_GAME_CONDITION, 1200);
 		
@@ -213,7 +218,7 @@ public class FCQuester extends FCPremiumScript implements FCPaintable, Painting,
 			General.println("Invalid account: " + accountInfo.getKey());
 			clearLoginResponse();
 			loggedInAccounts.add(accountInfo.getKey());
-			accountQueue.poll();
+			removeCurrentAccountAndClearMissions();
 		}
 		
 		return success;

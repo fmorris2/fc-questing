@@ -84,7 +84,7 @@ public class FCQuestingGUI
 			f.mkdirs();
 			File f2 = new File(ACCOUNT_PATH);
 			f2.mkdirs();
-		} catch(SecurityException e) {
+		} catch(Exception e) {
 			e.printStackTrace();
 			General.println("[FC Questing Error] Could not create necessary directories");
 		}
