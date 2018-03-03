@@ -33,6 +33,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EtchedBorder;
 
 import org.tribot.api.General;
+import org.tribot.util.Util;
 
 import scripts.fc.api.utils.Utils;
 import scripts.fc.fcquester.FCQuester;
@@ -231,48 +232,63 @@ public class FCQuestingGUI
 		mainPanel.add(abc2CheckBox);
 		
 		JButton loadAccountsButton = new JButton("Load Accts");
-		loadAccountsButton.addActionListener((e) -> loadAccounts());
+		loadAccountsButton.addActionListener((e) -> loadAccounts(ACCOUNT_PATH));
 		loadAccountsButton.setBounds(134, 170, 101, 20);
 		mainPanel.add(loadAccountsButton);
 		
 		JButton loadProfileButton = new JButton("Load Profile");
-		loadProfileButton.addActionListener((e) -> loadProfile());
+		loadProfileButton.addActionListener((e) -> loadProfile(FCQuestingProfile.PROFILE_PATH));
 		loadProfileButton.setBounds(134, 195, 101, 20);
 		mainPanel.add(loadProfileButton);
 		
 		JButton saveProfileButton = new JButton("Save Profile");
-		saveProfileButton.addActionListener((e) -> saveProfile());
+		saveProfileButton.addActionListener((e) -> saveProfile(FCQuestingProfile.PROFILE_PATH));
 		saveProfileButton.setBounds(10, 195, 118, 20);
 		mainPanel.add(saveProfileButton);
 	}
 	
-	private void loadAccounts() {
-		fileChooser.setCurrentDirectory(new File(ACCOUNT_PATH));
-		final int RETURN_VAL = fileChooser.showOpenDialog(mainFrame);
-		switch(RETURN_VAL) {
-			case JFileChooser.APPROVE_OPTION:
-				parseAccountsFromFile(fileChooser.getSelectedFile());
-			break;
+	private void loadAccounts(String path) {
+		try {
+			fileChooser.setCurrentDirectory(new File(path));
+			final int RETURN_VAL = fileChooser.showOpenDialog(mainFrame);
+			switch(RETURN_VAL) {
+				case JFileChooser.APPROVE_OPTION:
+					parseAccountsFromFile(fileChooser.getSelectedFile());
+				break;
+			}
+		} catch(Exception e) {
+			General.println("Falling back on working directory...");
+			loadAccounts(Util.getWorkingDirectory().getAbsolutePath());
 		}
 	}
 	
-	private void loadProfile() {
-		fileChooser.setCurrentDirectory(new File(FCQuestingProfile.PROFILE_PATH));
-		final int RETURN_VAL = fileChooser.showOpenDialog(mainFrame);
-		switch(RETURN_VAL) {
-			case JFileChooser.APPROVE_OPTION:
-				parseProfile(fileChooser.getSelectedFile());
-			break;
+	private void loadProfile(String path) {
+		try {
+			fileChooser.setCurrentDirectory(new File(path));
+			final int RETURN_VAL = fileChooser.showOpenDialog(mainFrame);
+			switch(RETURN_VAL) {
+				case JFileChooser.APPROVE_OPTION:
+					parseProfile(fileChooser.getSelectedFile());
+				break;
+			}
+		} catch(Exception e) {
+			General.println("Falling back on working directory...");
+			loadProfile(Util.getWorkingDirectory().getAbsolutePath());
 		}
 	}
 	
-	private void saveProfile() {
-		fileChooser.setCurrentDirectory(new File(FCQuestingProfile.PROFILE_PATH));
-		final int RETURN_VAL = fileChooser.showSaveDialog(mainFrame);
-		switch(RETURN_VAL) {
-			case JFileChooser.APPROVE_OPTION:
-				saveProfile(fileChooser.getSelectedFile());
-			break;
+	private void saveProfile(String path) {
+		try {
+			fileChooser.setCurrentDirectory(new File(path));
+			final int RETURN_VAL = fileChooser.showSaveDialog(mainFrame);
+			switch(RETURN_VAL) {
+				case JFileChooser.APPROVE_OPTION:
+					saveProfile(fileChooser.getSelectedFile());
+				break;
+			}
+		} catch(Exception e) {
+			General.println("Falling back on working directory...");
+			saveProfile(Util.getWorkingDirectory().getAbsolutePath());
 		}
 	}
 	
