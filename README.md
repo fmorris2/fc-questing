@@ -26,6 +26,6 @@ Script written for the [TRiBot](https://tribot.org/forums/) community to complet
 - [Druidic Ritual](http://oldschoolrunescape.wikia.com/wiki/Druidic_Ritual)
 - [Witch's Potion](http://oldschoolrunescape.wikia.com/wiki/Witch%27s_Potion)
 - [Prince Ali Rescue](http://oldschoolrunescape.wikia.com/wiki/Prince_Ali_Rescue)
-- [The Knight's Sword](http://oldschoolrunescape.wikia.com/wiki/The_Knight%27s_Sword
+- [The Knight's Sword](http://oldschoolrunescape.wikia.com/wiki/The_Knight%27s_Sword)
 - [Ernest the Chicken](http://oldschoolrunescape.wikia.com/wiki/Ernest_the_Chicken)
 - [The Restless Ghost](http://oldschoolrunescape.wikia.com/wiki/The_Restless_Ghost)
