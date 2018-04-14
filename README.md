@@ -2,7 +2,7 @@
 
 ## Overview
 Script written for the [TRiBot](https://tribot.org/forums/) community to complete multiple quests in
-[Old School Runescape](https://oldschool.runescape.com/) (OSRS).
+[Old School Runescape](https://oldschool.runescape.com/) (OSRS). Forum thread for the script can be found [here](https://tribot.org/forums/topic/73062-fc-questing14-questsge-supportabc2frequent-quest-additions3992-versions/).
 
 ## Features
 - Start anywhere in the game world
