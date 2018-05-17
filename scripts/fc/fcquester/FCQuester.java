@@ -45,6 +45,7 @@ import scripts.fc.framework.statistic_tracking.StatTracking;
 
 public class FCQuester extends FCPremiumScript implements FCPaintable, Painting, Starting, Ending, EventBlockingOverride, Arguments, StatTracking
 {		
+	private static final long serialVersionUID = 1L;
 	public QuestLoader questLoader;
 	public boolean allQuests;
 	public long currentQuestStart = Timing.currentTimeMillis();

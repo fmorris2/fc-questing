@@ -23,6 +23,7 @@ import scripts.fc.missions.fcromeoandjuliet.FCRomeoAndJuliet;
 import scripts.fc.missions.fcrunemysteries.FCRuneMysteries;
 import scripts.fc.missions.fcsheepshearer.FCSheepShearer;
 import scripts.fc.missions.fctutorial.FCTutorial;
+import scripts.fc.missions.fc_black_knights_fortress.FCBlackKnightsFortress;
 
 
 public class QuestLoader
@@ -37,6 +38,7 @@ public class QuestLoader
 		MISSION_MAP.clear();
 		
 		questSuppliers = Arrays.asList(
+				() -> new FCBlackKnightsFortress(script),
 				() -> new FCRestlessGhost(script),
 				() -> new FCErnestTheChicken(script),
 				() -> new FCKnightsSword(script),

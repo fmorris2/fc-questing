@@ -22,3 +22,4 @@ zip -r upload.zip . -x \
 "/FC_Druidic_Ritual/scripts/fc/FCDruidicRitualScript.java" \
 "/FC_Dorics_Quest/scripts/fc/fcdoricsquest/*.java" \
 "/FC_Cooks_Assistant/scripts/fc/fccooksassistant/*.java"
+"/fc-black-knights-fortress/scripts/fc/FCBlackKnightsFortressScript.java"

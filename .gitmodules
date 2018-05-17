@@ -46,3 +46,6 @@
 [submodule "FC_Restless_Ghost"]
 	path = FC_Restless_Ghost
 	url = https://github.com/fmorris2/FC_Restless_Ghost
+[submodule "fc-black-knights-fortress"]
+	path = fc-black-knights-fortress
+	url = https://github.com/fmorris2/fc-black-knights-fortress
