@@ -54,10 +54,10 @@ public class FCQuester extends FCPremiumScript implements FCPaintable, Painting,
 	private int questPoints = -1;
 	
 	private FCQuestingGUI GUI;
-	private Queue<Map.Entry<String, String>> accountQueue = new LinkedList<>();
+	private final Queue<Map.Entry<String, String>> accountQueue = new LinkedList<>();
 	private boolean isUsingArgs;
 	private HashMap<String,String> args;
-	private Set<String> loggedInAccounts = new HashSet<>();
+	private final Set<String> loggedInAccounts = new HashSet<>();
 	
 	@Override	
 	protected int mainLogic()
@@ -109,6 +109,7 @@ public class FCQuester extends FCPremiumScript implements FCPaintable, Painting,
 		setLoginBotState(isUsingArgs && accountQueue.isEmpty());
 	}
 	
+	@Override
 	public void onEnd()
 	{
 		super.onEnd();
@@ -145,13 +146,13 @@ public class FCQuester extends FCPremiumScript implements FCPaintable, Painting,
 	}
 	
 	@Override
-	public void passArguments(HashMap<String, String> args)
+	public void passArguments(final HashMap<String, String> args)
 	{
 		this.args = args;
-		String arguments = args.getOrDefault("custom_input", args.getOrDefault("autostart", ""));
+		final String arguments = args.getOrDefault("autostart", args.getOrDefault("custom_input", ""));
 		if(!arguments.isEmpty()) {
 			isUsingArgs = true;
-			FCQuestingProfile profile = FCQuestingProfile.get(arguments);
+			final FCQuestingProfile profile = FCQuestingProfile.get(arguments);
 			if(profile != null) {
 				GUI.useProfile(profile);
 				General.println("Using profile: " + arguments);
@@ -208,9 +209,9 @@ public class FCQuester extends FCPremiumScript implements FCPaintable, Painting,
 			return false;
 		}
 		
-		Map.Entry<String, String> accountInfo = accountQueue.peek();
+		final Map.Entry<String, String> accountInfo = accountQueue.peek();
 		General.println("Attempting to login to account: " + accountInfo.getKey());
-		boolean success = Login.login(accountInfo.getKey(), accountInfo.getValue())
+		final boolean success = Login.login(accountInfo.getKey(), accountInfo.getValue())
 				&& Timing.waitCondition(FCConditions.IN_GAME_CONDITION, 1200);
 		
 		if(success) {
@@ -236,7 +237,7 @@ public class FCQuester extends FCPremiumScript implements FCPaintable, Painting,
 				|| RESP.contains("locked"));
 	}
 	
-	public void addAccountToQueue(String user, String pass) {
+	public void addAccountToQueue(final String user, final String pass) {
 		accountQueue.add(new SimpleEntry<>(user, pass));
 	}
 	
