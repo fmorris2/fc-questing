@@ -12,6 +12,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -30,6 +31,7 @@ import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EtchedBorder;
 
 import org.tribot.api.General;
@@ -63,7 +65,7 @@ public class FCQuestingGUI
 	private JComboBox<QuestMissionWrapper> questBox;
 	private JList<QuestMissionWrapper> questList;
 	private JCheckBox abc2CheckBox;
-	private FCQuester script;
+	private final FCQuester script;
 	private DefaultListModel<QuestMissionWrapper> questModel;
 	private boolean isUsingArgs, isInitialized;
 	
@@ -71,21 +73,29 @@ public class FCQuestingGUI
 	/**
 	 * Create the application.
 	 */
-	public FCQuestingGUI(FCQuester script)
+	public FCQuestingGUI(final FCQuester script)
 	{
 		this.script = script;
 		this.script.questLoader = new QuestLoader(script);
-		fileChooser = new JFileChooser();
+		createJFileChooser();
+	}
+	
+	private void createJFileChooser() {
+		try {
+			SwingUtilities.invokeAndWait(() -> fileChooser = new JFileChooser());
+		} catch(final InvocationTargetException | InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void createDirs() {
 		try
 		{
-			File f = new File(FCQuestingProfile.PROFILE_PATH);
+			final File f = new File(FCQuestingProfile.PROFILE_PATH);
 			f.mkdirs();
-			File f2 = new File(ACCOUNT_PATH);
+			final File f2 = new File(ACCOUNT_PATH);
 			f2.mkdirs();
-		} catch(Exception e) {
+		} catch(final Exception e) {
 			e.printStackTrace();
 			General.println("[FC Questing Error] Could not create necessary directories");
 		}
@@ -115,7 +125,7 @@ public class FCQuestingGUI
 		mainFrame.setAlwaysOnTop(true);
 		
 		//Position GUI in center of screen
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();		
+		final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();		
 		mainFrame.setLocation((int)(screenSize.getWidth() / 2), (int)(screenSize.getHeight() / 2));
 		
 		//Make GUI visible
@@ -124,7 +134,7 @@ public class FCQuestingGUI
 	
 	private boolean prepareOptions()
 	{
-		Mission[] availableQuests = script.questLoader.getQuests();
+		final Mission[] availableQuests = script.questLoader.getQuests();
 		if(availableQuests.length == 0)
 		{
 			General.println("You have already completed all of the quests this script has to offer! Ending...");
@@ -136,8 +146,8 @@ public class FCQuestingGUI
 		return true;
 	}
 	
-	private void setQuestBox(Mission[] availableQuestMissions) {	
-		QuestMissionWrapper[] availableQuests = Arrays.stream(availableQuestMissions)
+	private void setQuestBox(final Mission[] availableQuestMissions) {	
+		final QuestMissionWrapper[] availableQuests = Arrays.stream(availableQuestMissions)
 				.map(m -> new QuestMissionWrapper(m.toString()))
 				.toArray(QuestMissionWrapper[]::new);
 		
@@ -161,15 +171,16 @@ public class FCQuestingGUI
 		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		mainFrame.getContentPane().setLayout(null);
 		
-		JPanel mainPanel = new JPanel();
+		final JPanel mainPanel = new JPanel();
 		mainPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		mainPanel.setBounds(10, 10, 244, 245);
 		mainFrame.getContentPane().add(mainPanel);
 		mainPanel.setLayout(null);
 		
-		JButton startButton = new JButton("Start");
+		final JButton startButton = new JButton("Start");
 		startButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			@Override
+			public void actionPerformed(final ActionEvent e) {
 				startButtonActionPerformed(e);
 			}
 		});
@@ -180,32 +191,35 @@ public class FCQuestingGUI
 		questBox.setBounds(10, 145, 117, 20);
 		mainPanel.add(questBox);
 		
-		JButton addQuestButton = new JButton("Add");
+		final JButton addQuestButton = new JButton("Add");
 		addQuestButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			@Override
+			public void actionPerformed(final ActionEvent e) {
 				addButtonActionPerformed(e);
 			}
 		});
 		addQuestButton.setBounds(9, 170, 58, 20);
 		mainPanel.add(addQuestButton);
 		
-		JButton removeButton = new JButton("Del");
+		final JButton removeButton = new JButton("Del");
 		removeButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			@Override
+			public void actionPerformed(final ActionEvent e) {
 				removeButtonActionPerformed(e);
 			}
 		});
 		removeButton.setBounds(70, 170, 58, 20);
 		mainPanel.add(removeButton);
 		
-		JButton upButton = new JButton("\u2191");
+		final JButton upButton = new JButton("\u2191");
 		upButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			@Override
+			public void actionPerformed(final ActionEvent e) {
 				upButtonActionPerformed(e);
 			}
 		});
 		
-		JScrollPane scrollPane = new JScrollPane();
+		final JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 4, 224, 138);
 		mainPanel.add(scrollPane);
 		
@@ -215,9 +229,10 @@ public class FCQuestingGUI
 		upButton.setBounds(134, 144, 46, 22);
 		mainPanel.add(upButton);
 		
-		JButton downButton = new JButton("\u2193");
+		final JButton downButton = new JButton("\u2193");
 		downButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			@Override
+			public void actionPerformed(final ActionEvent e) {
 				downButtonActionPerformed(e);
 			}
 		});
@@ -231,23 +246,23 @@ public class FCQuestingGUI
 		abc2CheckBox.setBounds(10, 220, 70, 20);
 		mainPanel.add(abc2CheckBox);
 		
-		JButton loadAccountsButton = new JButton("Load Accts");
+		final JButton loadAccountsButton = new JButton("Load Accts");
 		loadAccountsButton.addActionListener((e) -> loadAccounts(ACCOUNT_PATH));
 		loadAccountsButton.setBounds(134, 170, 101, 20);
 		mainPanel.add(loadAccountsButton);
 		
-		JButton loadProfileButton = new JButton("Load Profile");
+		final JButton loadProfileButton = new JButton("Load Profile");
 		loadProfileButton.addActionListener((e) -> loadProfile(FCQuestingProfile.PROFILE_PATH));
 		loadProfileButton.setBounds(134, 195, 101, 20);
 		mainPanel.add(loadProfileButton);
 		
-		JButton saveProfileButton = new JButton("Save Profile");
+		final JButton saveProfileButton = new JButton("Save Profile");
 		saveProfileButton.addActionListener((e) -> saveProfile(FCQuestingProfile.PROFILE_PATH));
 		saveProfileButton.setBounds(10, 195, 118, 20);
 		mainPanel.add(saveProfileButton);
 	}
 	
-	private void loadAccounts(String path) {
+	private void loadAccounts(final String path) {
 		try {
 			fileChooser.setCurrentDirectory(new File(path));
 			final int RETURN_VAL = fileChooser.showOpenDialog(mainFrame);
@@ -256,13 +271,13 @@ public class FCQuestingGUI
 					parseAccountsFromFile(fileChooser.getSelectedFile());
 				break;
 			}
-		} catch(Exception e) {
+		} catch(final Exception e) {
 			General.println("Falling back on working directory...");
 			loadAccounts(Util.getWorkingDirectory().getAbsolutePath());
 		}
 	}
 	
-	private void loadProfile(String path) {
+	private void loadProfile(final String path) {
 		try {
 			fileChooser.setCurrentDirectory(new File(path));
 			final int RETURN_VAL = fileChooser.showOpenDialog(mainFrame);
@@ -271,13 +286,13 @@ public class FCQuestingGUI
 					parseProfile(fileChooser.getSelectedFile());
 				break;
 			}
-		} catch(Exception e) {
+		} catch(final Exception e) {
 			General.println("Falling back on working directory...");
 			loadProfile(Util.getWorkingDirectory().getAbsolutePath());
 		}
 	}
 	
-	private void saveProfile(String path) {
+	private void saveProfile(final String path) {
 		try {
 			fileChooser.setCurrentDirectory(new File(path));
 			final int RETURN_VAL = fileChooser.showSaveDialog(mainFrame);
@@ -286,32 +301,32 @@ public class FCQuestingGUI
 					saveProfile(fileChooser.getSelectedFile());
 				break;
 			}
-		} catch(Exception e) {
+		} catch(final Exception e) {
 			General.println("Falling back on working directory...");
 			saveProfile(Util.getWorkingDirectory().getAbsolutePath());
 		}
 	}
 	
-	private void parseProfile(File file) {
+	private void parseProfile(final File file) {
 		try(FileInputStream fIn = new FileInputStream(file);
 			ObjectInputStream oIn = new ObjectInputStream(fIn);) {
-			FCQuestingProfile profile = (FCQuestingProfile)oIn.readObject();
+			final FCQuestingProfile profile = (FCQuestingProfile)oIn.readObject();
 			abc2CheckBox.setSelected(profile.ABC2_ENABLED);
 			Vars.get().add("abc2Enabled", abc2CheckBox.isSelected());
 			General.println("Profile w/ " + profile.QUEST_QUEUE.size() + " quests loaded: " + file);
 			addProfileToQuestBox(profile);
-		} catch(FileNotFoundException e) {
+		} catch(final FileNotFoundException e) {
 			e.printStackTrace();
-		} catch(IOException e) {
+		} catch(final IOException e) {
 			e.printStackTrace();
-		} catch(ClassNotFoundException e) {
+		} catch(final ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	private void removeCurrentQuests() {
 		while(!questModel.isEmpty()) {
-			QuestMissionWrapper m = questModel.remove(0);
+			final QuestMissionWrapper m = questModel.remove(0);
 			
 			if(!doesQuestBoxContainItem(m)) {
 				questBox.addItem(m);
@@ -319,7 +334,7 @@ public class FCQuestingGUI
 		}
 	}
 	
-	private boolean doesQuestBoxContainItem(QuestMissionWrapper w) {
+	private boolean doesQuestBoxContainItem(final QuestMissionWrapper w) {
 		for(int i = 0; i < questBox.getItemCount(); i++) {
 			if(questBox.getItemAt(i).equals(w)) {
 				return true;
@@ -329,7 +344,7 @@ public class FCQuestingGUI
 		return false;
 	}
 	
-	private void addProfileToQuestBox(FCQuestingProfile profile) {
+	private void addProfileToQuestBox(final FCQuestingProfile profile) {
 		removeCurrentQuests();
 		profile.QUEST_QUEUE.forEach(m -> {
 			if(!questModel.contains(m)) {
@@ -344,37 +359,37 @@ public class FCQuestingGUI
 		});
 	}
 	
-	private void saveProfile(File file) {
-		QuestMissionWrapper[] quests = new QuestMissionWrapper[questModel.size()];
+	private void saveProfile(final File file) {
+		final QuestMissionWrapper[] quests = new QuestMissionWrapper[questModel.size()];
     	questModel.copyInto(quests);
-		Queue<QuestMissionWrapper> questQueue = new LinkedList<>(Arrays.asList(quests));
-		FCQuestingProfile profile = new FCQuestingProfile(questQueue, abc2CheckBox.isSelected());
+		final Queue<QuestMissionWrapper> questQueue = new LinkedList<>(Arrays.asList(quests));
+		final FCQuestingProfile profile = new FCQuestingProfile(questQueue, abc2CheckBox.isSelected());
 		try(FileOutputStream fOut = new FileOutputStream(file);
 			ObjectOutputStream oOut = new ObjectOutputStream(fOut)) {
 			oOut.writeObject(profile);
 			General.println("Successfully saved current profile to " + file);
-		} catch(FileNotFoundException e) {
+		} catch(final FileNotFoundException e) {
 			e.printStackTrace();
-		} catch(IOException e) {
+		} catch(final IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	private void parseAccountsFromFile(File file) {
+	private void parseAccountsFromFile(final File file) {
 		General.println("Accounts file selected: " + file);
 		try(FileReader fR = new FileReader(file);
 			BufferedReader bR = new BufferedReader(fR)) {
 			String line;
 			while((line = bR.readLine()) != null) {
-				String[] parts = line.split(":");
+				final String[] parts = line.split(":");
 				if(parts.length > 0) {
 					script.addAccountToQueue(parts[0], parts[1]);
 				}
 			}
 			General.println("Added " + script.getAccountQueueSize() + " accounts to the queue");
-		} catch(FileNotFoundException e) {
+		} catch(final FileNotFoundException e) {
 			e.printStackTrace();
-		} catch(IOException e) {
+		} catch(final IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -383,48 +398,48 @@ public class FCQuestingGUI
 	{
 		try
 		{
-			File file = new File(getClass().getResource(ICON_PATH).toURI());
+			final File file = new File(getClass().getResource(ICON_PATH).toURI());
 			if(file.exists())
 				mainFrame.setIconImage(ImageIO.read(file));
 		}
-		catch(Exception e)
+		catch(final Exception e)
 		{
 			e.printStackTrace();
 		}
 	}
 	
 	//LISTENERS
-	private void upButtonActionPerformed(java.awt.event.ActionEvent evt) 
+	private void upButtonActionPerformed(final java.awt.event.ActionEvent evt) 
     {      
-    	int index = questList.getSelectedIndex();
+    	final int index = questList.getSelectedIndex();
     	
     	if(index <= 0)
     		return;
     	
-    	QuestMissionWrapper toRemove = questList.getModel().getElementAt(index - 1);
+    	final QuestMissionWrapper toRemove = questList.getModel().getElementAt(index - 1);
     	
     	questModel.remove(index - 1);
     	questModel.add(index, toRemove);
     	questList.setSelectedIndex(index - 1);
     } 
 
-    private void downButtonActionPerformed(java.awt.event.ActionEvent evt) 
+    private void downButtonActionPerformed(final java.awt.event.ActionEvent evt) 
     {
-    	int index = questList.getSelectedIndex();
+    	final int index = questList.getSelectedIndex();
     	
     	if(index + 1 == questModel.getSize() || questModel.getSize() <= 1)
     		return;
     	
-    	QuestMissionWrapper toRemove = questList.getModel().getElementAt(index + 1);
+    	final QuestMissionWrapper toRemove = questList.getModel().getElementAt(index + 1);
     	
     	questModel.remove(index + 1);
     	questModel.add(index, toRemove);
     	questList.setSelectedIndex(index + 1);
     }                                          
 
-    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) 
+    private void addButtonActionPerformed(final java.awt.event.ActionEvent evt) 
     {
-    	QuestMissionWrapper q = ((QuestMissionWrapper) questBox.getSelectedItem());
+    	final QuestMissionWrapper q = ((QuestMissionWrapper) questBox.getSelectedItem());
     	
     	if(q == null || q.getMission() == null)
     		return;
@@ -436,9 +451,9 @@ public class FCQuestingGUI
     	}
     }                                         
 
-    private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) 
+    private void removeButtonActionPerformed(final java.awt.event.ActionEvent evt) 
     {
-    	int index = questList.getSelectedIndex();
+    	final int index = questList.getSelectedIndex();
     	if(index < 0)
     		return;
     	
@@ -446,7 +461,7 @@ public class FCQuestingGUI
     		questBox.addItem(questModel.remove(index));
     }                    
 
-    private void startButtonActionPerformed(java.awt.event.ActionEvent evt) 
+    private void startButtonActionPerformed(final java.awt.event.ActionEvent evt) 
     {
     	mainFrame.setVisible(false);
     	hasFilledOut = true;
@@ -454,13 +469,13 @@ public class FCQuestingGUI
     	script.setLoginBotState(script.getAccountQueueSize() == 0);
     }
     
-    public void addSelectedQuestsToScript(boolean resetQuestMissions) { 
+    public void addSelectedQuestsToScript(final boolean resetQuestMissions) { 
     	script.getSetMissions().clear();
     	
-    	QuestMissionWrapper[] quests = new QuestMissionWrapper[questModel.size()];
+    	final QuestMissionWrapper[] quests = new QuestMissionWrapper[questModel.size()];
     	questModel.copyInto(quests);
     	
-    	for(QuestMissionWrapper q : quests) {
+    	for(final QuestMissionWrapper q : quests) {
     		if(resetQuestMissions) {
     			q.resetMission();
     		}
@@ -478,9 +493,9 @@ public class FCQuestingGUI
     public void randomlyAddQuests()
     {
     	isUsingArgs = true;
-    	List<Mission> quests = new ArrayList<>();
+    	final List<Mission> quests = new ArrayList<>();
     	
-    	for(Mission q : script.questLoader.getQuests())
+    	for(final Mission q : script.questLoader.getQuests())
     	{    		
     		if(!(q instanceof FCTutorial) && !q.hasReachedEndingCondition())
     			quests.add(q);
@@ -494,7 +509,7 @@ public class FCQuestingGUI
     	hasFilledOut = true;
     }
     
-    public void useProfile(FCQuestingProfile profile) {
+    public void useProfile(final FCQuestingProfile profile) {
     	isUsingArgs = true;
     	profile.QUEST_QUEUE.stream()
     		.forEach(w -> {
@@ -508,7 +523,7 @@ public class FCQuestingGUI
     {  	
     	isUsingArgs = true;
     	
-    	List<Mission> quests = Arrays.asList(new FCCooksAssistant(script), new FCSheepShearer(script), new FCRomeoAndJuliet(script));
+    	final List<Mission> quests = Arrays.asList(new FCCooksAssistant(script), new FCSheepShearer(script), new FCRomeoAndJuliet(script));
     	Collections.shuffle(quests);
     	script.getSetMissions().add(new FCTutorial(script));
     	script.getSetMissions().addAll(quests);
